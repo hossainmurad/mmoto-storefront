@@ -27,7 +27,7 @@ type MedusaProduct = {
 }
 
 const LIST_FIELDS =
-  "id,title,handle,thumbnail,metadata,*variants.calculated_price,+variants.inventory_quantity,variants.manage_inventory,variants.allow_backorder"
+  "id,title,handle,thumbnail,metadata,variants.id,variants.title,*variants.calculated_price,+variants.inventory_quantity,variants.manage_inventory,variants.allow_backorder"
 const DETAIL_FIELDS = `${LIST_FIELDS},description,*images,*options,*options.values,*variants.options`
 
 /** Product data is cached for 5 minutes; revalidate the "products" tag from Medusa to refresh sooner. */
