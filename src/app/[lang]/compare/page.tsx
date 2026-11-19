@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { ClearList } from "@/components/shop/ClearList"
 import { ListToggle } from "@/components/shop/ListToggle"
-import { Empty, NotConnected } from "@/components/shop/Notice"
+import { DemoNote, Empty } from "@/components/shop/Notice"
 import { Price } from "@/components/shop/Price"
 import s from "@/components/shop/shop.module.css"
 import { getI18n } from "@/lib/i18n/server"
@@ -20,9 +20,8 @@ export default async function ComparePage() {
   return (
     <div className="page">
       <h1 className="title">{t.compare.title}</h1>
-      {!medusaConfigured ? (
-        <NotConnected t={t} />
-      ) : !products.length ? (
+      {!medusaConfigured && <DemoNote t={t} />}
+        {!products.length ? (
         <Empty>{t.compare.empty}</Empty>
       ) : (
         <>

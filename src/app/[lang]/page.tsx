@@ -1,5 +1,7 @@
 import Link from "next/link"
+import { DemoNote } from "@/components/shop/Notice"
 import { ProductGrid } from "@/components/shop/ProductCard"
+import { medusaConfigured } from "@/lib/medusa/client"
 import s from "@/components/shop/shop.module.css"
 import { getI18n } from "@/lib/i18n/server"
 import { getCategoryTree } from "@/lib/medusa/categories"
@@ -25,6 +27,7 @@ export default async function Home() {
       {latest.products.length > 0 && (
         <section className={s.section} aria-labelledby="latest">
           <h2 id="latest" className={s.h2}>{t.home.latest}</h2>
+          {!medusaConfigured && <DemoNote t={t} />}
           <ProductGrid products={latest.products} locale={locale} t={t} />
         </section>
       )}

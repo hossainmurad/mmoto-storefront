@@ -11,6 +11,16 @@ export function NotConnected({ t }: { t: Dictionary }) {
   )
 }
 
+/** Shown above products while the demo catalogue is in use (Medusa not configured). */
+export function DemoNote({ t }: { t: Dictionary }) {
+  return (
+    <div className={s.notice} role="note">
+      <strong>{t.store.demoTitle}</strong>
+      {t.store.demoBody}
+    </div>
+  )
+}
+
 export function Empty({ children }: { children: React.ReactNode }) {
   return <div className={s.empty}>{children}</div>
 }

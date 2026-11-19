@@ -1,4 +1,4 @@
-import { Empty, NotConnected } from "@/components/shop/Notice"
+import { DemoNote, Empty } from "@/components/shop/Notice"
 import { ProductGrid } from "@/components/shop/ProductCard"
 import s from "@/components/shop/shop.module.css"
 import { getI18n } from "@/lib/i18n/server"
@@ -20,9 +20,8 @@ export default async function DealsPage() {
     <div className="page">
       <h1 className="title">{t.deals.title}</h1>
       <p className={s.lead}>{t.deals.intro}</p>
-      {!medusaConfigured ? (
-        <NotConnected t={t} />
-      ) : products.length ? (
+      {!medusaConfigured && <DemoNote t={t} />}
+        {products.length ? (
         <ProductGrid products={products} locale={locale} t={t} />
       ) : (
         <Empty>{t.deals.empty}</Empty>

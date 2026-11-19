@@ -1,9 +1,8 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
-import { useI18n } from "@/lib/i18n/client"
+import { useBrowserPathname, useI18n } from "@/lib/i18n/client"
 import { fmt, num } from "@/lib/i18n/format"
 import type { PageLink } from "@/lib/nav-config"
 import { catName, categoryHref, type NavCategory } from "@/lib/nav-types"
@@ -34,7 +33,7 @@ export function MobileMenu({
   const panelRef = useRef<HTMLDivElement>(null)
   const openerRef = useRef<HTMLButtonElement>(null)
   const headingRef = useRef<HTMLHeadingElement>(null)
-  const pathname = usePathname()
+  const pathname = useBrowserPathname()
 
   const current = stack[stack.length - 1]
   const items = current ? current.children : categories

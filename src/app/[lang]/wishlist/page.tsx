@@ -1,5 +1,5 @@
 import { ClearList } from "@/components/shop/ClearList"
-import { Empty, NotConnected } from "@/components/shop/Notice"
+import { DemoNote, Empty } from "@/components/shop/Notice"
 import { ProductGrid } from "@/components/shop/ProductCard"
 import { getI18n } from "@/lib/i18n/server"
 import { getListProducts } from "@/lib/lists-server"
@@ -17,9 +17,8 @@ export default async function WishlistPage() {
   return (
     <div className="page">
       <h1 className="title">{t.wishlist.title}</h1>
-      {!medusaConfigured ? (
-        <NotConnected t={t} />
-      ) : products.length ? (
+      {!medusaConfigured && <DemoNote t={t} />}
+        {products.length ? (
         <>
           <ClearList list="wishlist" />
           <ProductGrid products={products} locale={locale} t={t} refreshOnToggle />

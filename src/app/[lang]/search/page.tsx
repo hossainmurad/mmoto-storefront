@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Empty, NotConnected } from "@/components/shop/Notice"
+import { DemoNote, Empty } from "@/components/shop/Notice"
 import { PAGE_SIZE, Pager, pageFrom } from "@/components/shop/Pager"
 import { ProductGrid } from "@/components/shop/ProductCard"
 import s from "@/components/shop/shop.module.css"
@@ -59,9 +59,8 @@ export default async function SearchPage({ searchParams }: Props) {
 
       <section className={s.section} aria-labelledby="prod-matches">
         <h2 id="prod-matches" className={s.h2}>{t.search.products}</h2>
-        {!medusaConfigured ? (
-          <NotConnected t={t} />
-        ) : products.length ? (
+        {!medusaConfigured && <DemoNote t={t} />}
+        {products.length ? (
           <>
             <p className={s.meta} role="status">{fmt(t.search.count, { n: num(locale, count) })}</p>
             <ProductGrid products={products} locale={locale} t={t} />

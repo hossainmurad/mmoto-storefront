@@ -42,6 +42,8 @@ const en = {
     notConnectedTitle: "Store not connected",
     notConnectedBody: "Products appear here once Medusa is connected. Fill in the Medusa settings in .env.local (see README).",
     error: "Something went wrong loading this. Please try again.",
+    demoTitle: "Demo products",
+    demoBody: "These are sample products so you can try the store. Connect Medusa (see README) to show your real catalogue.",
   },
   home: {
     title: "Shop by category",

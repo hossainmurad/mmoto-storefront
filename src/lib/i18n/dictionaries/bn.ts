@@ -45,6 +45,8 @@ const bn: Dictionary = {
     notConnectedTitle: "স্টোর সংযুক্ত নয়",
     notConnectedBody: "Medusa সংযুক্ত হলে এখানে পণ্য দেখা যাবে। .env.local ফাইলে Medusa সেটিংস দিন (README দেখুন)।",
     error: "লোড করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।",
+    demoTitle: "নমুনা পণ্য",
+    demoBody: "স্টোরটি চেষ্টা করে দেখার জন্য এগুলো নমুনা পণ্য। আসল পণ্য দেখাতে Medusa সংযুক্ত করুন (README দেখুন)।",
   },
   home: {
     title: "ক্যাটাগরি অনুযায়ী কিনুন",

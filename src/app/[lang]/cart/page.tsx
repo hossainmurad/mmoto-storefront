@@ -1,11 +1,14 @@
 import Link from "next/link"
 import { CartLineControls } from "@/components/shop/CartLineControls"
-import { Empty, NotConnected } from "@/components/shop/Notice"
+import { DemoNote, Empty } from "@/components/shop/Notice"
 import s from "@/components/shop/shop.module.css"
 import { fmt, price } from "@/lib/i18n/format"
 import { getI18n } from "@/lib/i18n/server"
 import { getCart } from "@/lib/medusa/cart"
 import { medusaConfigured } from "@/lib/medusa/client"
+
+// Per-visitor (reads the cart cookie).
+export const dynamic = "force-dynamic"
 
 export async function generateMetadata() {
   const { t } = await getI18n()
@@ -15,7 +18,7 @@ export async function generateMetadata() {
 /** Cart: lines with quantity controls and the subtotal. Checkout is not built yet (see TODO below). */
 export default async function CartPage() {
   const { locale, t, href } = await getI18n()
-  const cart = await getCart()
+  const cart = await getCart(locale)
   const items = cart?.items ?? []
   const money = (n: number) => price(locale, n, cart?.currency_code ?? "bdt")
   const subtotal = cart?.item_subtotal ?? cart?.subtotal ?? items.reduce((n, i) => n + i.unit_price * i.quantity, 0)
@@ -23,9 +26,8 @@ export default async function CartPage() {
   return (
     <div className="page">
       <h1 className="title">{t.cart.title}</h1>
-      {!medusaConfigured ? (
-        <NotConnected t={t} />
-      ) : !items.length ? (
+      {!medusaConfigured && <DemoNote t={t} />}
+        {!items.length ? (
         <Empty>
           {t.cart.empty}
           <br />

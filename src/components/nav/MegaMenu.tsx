@@ -1,9 +1,8 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 import { useCallback, useEffect, useId, useRef, useState } from "react"
-import { useI18n } from "@/lib/i18n/client"
+import { useBrowserPathname, useI18n } from "@/lib/i18n/client"
 import { fmt, num } from "@/lib/i18n/format"
 import type { PageLink } from "@/lib/nav-config"
 import { catName, categoryHref, type NavCategory } from "@/lib/nav-types"
@@ -28,7 +27,7 @@ export function MegaMenu({ categories, pages }: { categories: NavCategory[]; pag
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const navRef = useRef<HTMLElement>(null)
   const toggles = useRef<Record<string, HTMLButtonElement | null>>({})
-  const pathname = usePathname()
+  const pathname = useBrowserPathname()
   const baseId = useId()
   const focusFirst = useRef<string | null>(null)
   const { t, locale, href } = useI18n()

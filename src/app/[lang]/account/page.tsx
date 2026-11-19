@@ -8,6 +8,9 @@ import { getI18n } from "@/lib/i18n/server"
 import { medusaConfigured } from "@/lib/medusa/client"
 import { getCustomer, getOrders } from "@/lib/medusa/customer"
 
+// Per-visitor (reads the login cookie).
+export const dynamic = "force-dynamic"
+
 export async function generateMetadata() {
   const { t } = await getI18n()
   return { title: t.account.title, robots: { index: false } }

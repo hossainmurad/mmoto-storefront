@@ -2,7 +2,9 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { BuyBox } from "@/components/shop/BuyBox"
 import { Gallery } from "@/components/shop/Gallery"
+import { DemoNote } from "@/components/shop/Notice"
 import s from "@/components/shop/shop.module.css"
+import { medusaConfigured } from "@/lib/medusa/client"
 import { getI18n } from "@/lib/i18n/server"
 import { getProduct } from "@/lib/medusa/products"
 
@@ -32,7 +34,8 @@ export default async function ProductPage({ params }: Props) {
         <span aria-hidden="true">/</span>
         <span aria-current="page">{product.title}</span>
       </nav>
-      <div className={s.pdp}>
+      {!medusaConfigured && <DemoNote t={t} />}
+      <div className={s.pdp} style={{ marginTop: 24 }}>
         <Gallery images={product.images} alt={product.title} />
         <div className={s.buy}>
           <h1 className="title" style={{ fontSize: "clamp(36px, 6vw, 56px)" }}>{product.title}</h1>

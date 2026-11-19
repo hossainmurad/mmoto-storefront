@@ -1,7 +1,7 @@
 "use client"
 
-import { usePathname, useRouter } from "next/navigation"
-import { useI18n } from "@/lib/i18n/client"
+import { useRouter } from "next/navigation"
+import { useBrowserPathname, useI18n } from "@/lib/i18n/client"
 import { localePath, stripLocale, type Locale } from "@/lib/i18n/config"
 import s from "./nav.module.css"
 
@@ -9,7 +9,7 @@ import s from "./nav.module.css"
 export function LangSwitch({ className = "" }: { className?: string }) {
   const { t, locale } = useI18n()
   const router = useRouter()
-  const pathname = usePathname()
+  const pathname = useBrowserPathname()
   const other: Locale = locale === "en" ? "bn" : "en"
   const target = localePath(other, stripLocale(pathname))
 

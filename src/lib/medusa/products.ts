@@ -2,6 +2,7 @@ import "server-only"
 import type { Locale } from "../i18n/config"
 import type { Money, ShopProduct, ShopVariant } from "../shop-types"
 import { medusa, medusaConfigured } from "./client"
+import { demoGet, demoList } from "./demo"
 import { getRegion } from "./region"
 
 type MedusaPrice = { calculated_amount?: number | null; original_amount?: number | null; currency_code?: string | null }
@@ -76,10 +77,10 @@ export type ProductQuery = {
   offset?: number
 }
 
-/** Lists products with prices for the store region. Returns an empty list when Medusa is not set up. */
-export async function listProducts(locale: Locale, query: ProductQuery = {}) {
-  if (!medusaConfigured) return { products: [] as ShopProduct[], count: 0 }
+/** Lists products with prices for the store region. Uses the demo catalogue when Medusa is not set up. */
+export async function listProducts(locale: Locale, query: ProductQuery = {}): Promise<{ products: ShopProduct[]; count: number }> {
   if (query.ids && query.ids.length === 0) return { products: [], count: 0 }
+  if (!medusaConfigured) return demoList(locale, query)
   const region = await getRegion()
   const { products, count } = await medusa<{ products: MedusaProduct[]; count: number }>("/store/products", {
     query: {
@@ -99,7 +100,7 @@ export async function listProducts(locale: Locale, query: ProductQuery = {}) {
 }
 
 export async function getProduct(locale: Locale, handle: string): Promise<ShopProduct | null> {
-  if (!medusaConfigured) return null
+  if (!medusaConfigured) return demoGet(locale, handle)
   const region = await getRegion()
   const { products } = await medusa<{ products: MedusaProduct[] }>("/store/products", {
     query: { handle, fields: DETAIL_FIELDS, region_id: region?.id, limit: 1 },
@@ -110,7 +111,7 @@ export async function getProduct(locale: Locale, handle: string): Promise<ShopPr
 
 /** Products in the product collection with this handle (used for Deals: create a "deals" collection in Medusa). */
 export async function listCollectionProducts(locale: Locale, handle: string, limit = 48) {
-  if (!medusaConfigured) return { products: [] as ShopProduct[], count: 0 }
+  if (!medusaConfigured) return demoList(locale, { deals: true, limit })
   const { collections } = await medusa<{ collections: { id: string }[] }>("/store/collections", {
     query: { handle, fields: "id", limit: 1 },
     ...CACHE,

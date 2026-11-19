@@ -1,7 +1,8 @@
 "use client"
 
+import { usePathname } from "next/navigation"
 import { createContext, useContext, useMemo } from "react"
-import { localePath, type Locale } from "./config"
+import { DEFAULT_LOCALE, localePath, type Locale } from "./config"
 import type { Dictionary } from "./dictionaries/en"
 
 const Ctx = createContext<{ locale: Locale; t: Dictionary } | null>(null)
@@ -10,6 +11,20 @@ const Ctx = createContext<{ locale: Locale; t: Dictionary } | null>(null)
 export function I18nProvider({ locale, t, children }: { locale: Locale; t: Dictionary; children: React.ReactNode }) {
   const value = useMemo(() => ({ locale, t }), [locale, t])
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>
+}
+
+/**
+ * usePathname() without the internal /en prefix. English pages are served at
+ * plain URLs through a rewrite (src/proxy.ts), so on the server usePathname()
+ * returns "/en/deals" while the browser sees "/deals". Rendering with the raw
+ * value causes hydration mismatches; this returns "/deals" in both places.
+ * Bangla paths ("/bn/deals") are the same on both sides and stay as they are.
+ */
+export function useBrowserPathname() {
+  const p = usePathname()
+  const prefix = `/${DEFAULT_LOCALE}`
+  if (p === prefix) return "/"
+  return p.startsWith(`${prefix}/`) ? p.slice(prefix.length) : p
 }
 
 export function useI18n() {

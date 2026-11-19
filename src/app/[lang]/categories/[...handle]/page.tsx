@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { Empty, NotConnected } from "@/components/shop/Notice"
+import { DemoNote, Empty } from "@/components/shop/Notice"
 import { PAGE_SIZE, Pager, pageFrom } from "@/components/shop/Pager"
 import { ProductGrid } from "@/components/shop/ProductCard"
 import s from "@/components/shop/shop.module.css"
@@ -22,7 +22,8 @@ export async function generateMetadata({ params }: Props) {
 
 /** Ids of a category and everything under it, so parent pages list their subcategories' products too. */
 function withDescendants(c: NavCategory): string[] {
-  return [c.id, ...c.children.flatMap(withDescendants)].filter((id) => !id.startsWith("fallback_"))
+  // Fallback-tree ids only mean something to the demo catalogue, not to Medusa.
+  return [c.id, ...c.children.flatMap(withDescendants)].filter((id) => !medusaConfigured || !id.startsWith("fallback_"))
 }
 
 export default async function CategoryPage({ params, searchParams }: Props) {
@@ -64,9 +65,8 @@ export default async function CategoryPage({ params, searchParams }: Props) {
 
       <section className={s.section} aria-labelledby="products">
         <h2 id="products" className={s.h2}>{t.category.products}</h2>
-        {!medusaConfigured ? (
-          <NotConnected t={t} />
-        ) : products.length ? (
+        {!medusaConfigured && <DemoNote t={t} />}
+        {products.length ? (
           <>
             <p className={s.meta}>{fmt(t.category.count, { n: num(locale, count) })}</p>
             <ProductGrid products={products} locale={locale} t={t} />

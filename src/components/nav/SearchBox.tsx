@@ -1,9 +1,9 @@
 "use client"
 
-import { usePathname, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { useEffect, useId, useRef, useState } from "react"
 import type { Suggestions } from "@/app/api/search/route"
-import { useI18n } from "@/lib/i18n/client"
+import { useBrowserPathname, useI18n } from "@/lib/i18n/client"
 import { stripLocale } from "@/lib/i18n/config"
 import { fmt } from "@/lib/i18n/format"
 import { Icon } from "./icons"
@@ -22,7 +22,7 @@ type Option = { id: string; href: string }
 export function SearchBox() {
   const { t, locale, href } = useI18n()
   const router = useRouter()
-  const pathname = usePathname()
+  const pathname = useBrowserPathname()
   const id = useId()
   const listId = `${id}-list`
   const [q, setQ] = useState("")
