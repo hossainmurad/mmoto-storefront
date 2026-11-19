@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "PowerShell($r=Invoke-WebRequest \"http://localhost:3123/bn/products/demo-full-face-helmet\" -UseBasicParsing; $html=[Text.Encoding]::UTF8.GetString\\($r.RawContentStream.ToArray\\(\\)\\); \"bn price: \" + [regex]::Match\\($html,'৳[^<]+'\\).Value + \" | was: \" + [regex]::Matches\\($html,'৳[^<]+'\\)[1].Value + \" | size legend: \" + $html.Contains\\('সাইজ বাছাই করুন'\\))",
-      "PowerShell($r=Invoke-WebRequest \"http://localhost:3123/bn/products/demo-full-face-helmet\" -UseBasicParsing; $html=[Text.Encoding]::UTF8.GetString\\($r.RawContentStream.ToArray\\(\\)\\); $i=$html.IndexOf\\('nowSale'\\); $html.Substring\\($i,200\\))",
-      "PowerShell(Get-Content .next\\\\dev\\\\logs\\\\next-development.log -Tail 12 | ForEach-Object { if\\($_.Length -gt 300\\){$_.Substring\\(0,300\\)}else{$_} }; Get-CimInstance Win32_Process -Filter \"Name='node.exe'\" | Where-Object { $_.CommandLine -match 'next' } | Select-Object ProcessId, CreationDate, @{n='cmd';e={$_.CommandLine.Substring\\(0,[Math]::Min\\(120,$_.CommandLine.Length\\)\\)}})"
-    ]
-  }
-}
