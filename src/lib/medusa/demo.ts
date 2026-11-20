@@ -19,15 +19,16 @@ type Demo = {
   /** set to show it as discounted and list it on /deals */
   was?: number
   sizes?: string[]
+  colors?: string[]
   outOfStock?: boolean
 }
 
 const DEMO: Demo[] = [
-  { handle: "demo-full-face-helmet", title: "Demo Full Face Helmet", titleBn: "ডেমো ফুল ফেস হেলমেট", description: "Example product. Polycarbonate shell, clear visor, removable washable liner.", descriptionBn: "নমুনা পণ্য। পলিকার্বনেট শেল, স্বচ্ছ ভাইজর, খুলে ধোয়া যায় এমন লাইনার।", categories: ["fallback_helmets_full-face"], price: 6500, was: 7800, sizes: ["M", "L", "XL"] },
-  { handle: "demo-modular-helmet", title: "Demo Modular Helmet", titleBn: "ডেমো মডুলার হেলমেট", description: "Example product. Flip-up chin bar and built-in sun visor.", descriptionBn: "নমুনা পণ্য। উপরে ওঠানো যায় এমন চিন বার ও বিল্ট-ইন সান ভাইজর।", categories: ["fallback_helmets_modular"], price: 9800, sizes: ["M", "L", "XL"] },
-  { handle: "demo-open-face-helmet", title: "Demo Open Face Helmet", titleBn: "ডেমো ওপেন ফেস হেলমেট", description: "Example product. Light open face helmet for city riding.", descriptionBn: "নমুনা পণ্য। শহরে চালানোর জন্য হালকা ওপেন ফেস হেলমেট।", categories: ["fallback_helmets_open-face"], price: 3200, sizes: ["M", "L"] },
-  { handle: "demo-riding-jacket", title: "Demo Mesh Riding Jacket", titleBn: "ডেমো মেশ রাইডিং জ্যাকেট", description: "Example product. Breathable mesh with shoulder and elbow armour.", descriptionBn: "নমুনা পণ্য। বাতাস চলাচলযোগ্য মেশ, কাঁধ ও কনুইয়ে আর্মার।", categories: ["fallback_motorcycle-gear_jackets"], price: 8500, was: 9900, sizes: ["M", "L", "XL", "XXL"] },
-  { handle: "demo-riding-gloves", title: "Demo Riding Gloves", titleBn: "ডেমো রাইডিং গ্লাভস", description: "Example product. Knuckle protection and touchscreen fingertips.", descriptionBn: "নমুনা পণ্য। নাকল প্রোটেকশন ও টাচস্ক্রিন আঙুল।", categories: ["fallback_motorcycle-gear_gloves"], price: 1800, sizes: ["S", "M", "L", "XL"] },
+  { handle: "demo-full-face-helmet", title: "Demo Full Face Helmet", titleBn: "ডেমো ফুল ফেস হেলমেট", description: "Example product. Polycarbonate shell, clear visor, removable washable liner.", descriptionBn: "নমুনা পণ্য। পলিকার্বনেট শেল, স্বচ্ছ ভাইজর, খুলে ধোয়া যায় এমন লাইনার।", categories: ["fallback_helmets_full-face"], price: 6500, was: 7800, sizes: ["M", "L", "XL"], colors: ["Black", "White", "Red"] },
+  { handle: "demo-modular-helmet", title: "Demo Modular Helmet", titleBn: "ডেমো মডুলার হেলমেট", description: "Example product. Flip-up chin bar and built-in sun visor.", descriptionBn: "নমুনা পণ্য। উপরে ওঠানো যায় এমন চিন বার ও বিল্ট-ইন সান ভাইজর।", categories: ["fallback_helmets_modular"], price: 9800, sizes: ["M", "L", "XL"], colors: ["Black", "Grey"] },
+  { handle: "demo-open-face-helmet", title: "Demo Open Face Helmet", titleBn: "ডেমো ওপেন ফেস হেলমেট", description: "Example product. Light open face helmet for city riding.", descriptionBn: "নমুনা পণ্য। শহরে চালানোর জন্য হালকা ওপেন ফেস হেলমেট।", categories: ["fallback_helmets_open-face"], price: 3200, sizes: ["M", "L"], colors: ["Black", "White"] },
+  { handle: "demo-riding-jacket", title: "Demo Mesh Riding Jacket", titleBn: "ডেমো মেশ রাইডিং জ্যাকেট", description: "Example product. Breathable mesh with shoulder and elbow armour.", descriptionBn: "নমুনা পণ্য। বাতাস চলাচলযোগ্য মেশ, কাঁধ ও কনুইয়ে আর্মার।", categories: ["fallback_motorcycle-gear_jackets"], price: 8500, was: 9900, sizes: ["M", "L", "XL", "XXL"], colors: ["Black", "Hi-Vis Yellow"] },
+  { handle: "demo-riding-gloves", title: "Demo Riding Gloves", titleBn: "ডেমো রাইডিং গ্লাভস", description: "Example product. Knuckle protection and touchscreen fingertips.", descriptionBn: "নমুনা পণ্য। নাকল প্রোটেকশন ও টাচস্ক্রিন আঙুল।", categories: ["fallback_motorcycle-gear_gloves"], price: 1800, sizes: ["S", "M", "L", "XL"], colors: ["Black"] },
   { handle: "demo-riding-boots", title: "Demo Touring Boots", titleBn: "ডেমো ট্যুরিং বুট", description: "Example product. Ankle support and oil-resistant sole.", descriptionBn: "নমুনা পণ্য। গোড়ালির সাপোর্ট ও তেল-প্রতিরোধী সোল।", categories: ["fallback_motorcycle-gear_boots-and-shoes"], price: 7200, sizes: ["41", "42", "43", "44"], outOfStock: true },
   { handle: "demo-rain-suit", title: "Demo Rain Suit", titleBn: "ডেমো রেইন স্যুট", description: "Example product. Two-piece waterproof suit with reflective strips.", descriptionBn: "নমুনা পণ্য। রিফ্লেক্টিভ স্ট্রিপসহ দুই অংশের ওয়াটারপ্রুফ স্যুট।", categories: ["fallback_motorcycle-gear_rainwear-and-visibility"], price: 2400, was: 2900, sizes: ["L", "XL"] },
   { handle: "demo-engine-oil-1l", title: "Demo 10W-40 Engine Oil 1L", titleBn: "ডেমো ১০W-৪০ ইঞ্জিন অয়েল ১ লিটার", description: "Example product. Semi-synthetic 4-stroke motorcycle oil.", descriptionBn: "নমুনা পণ্য। সেমি-সিন্থেটিক ৪-স্ট্রোক মোটরসাইকেল অয়েল।", categories: ["fallback_motorcycle-parts_oils", "fallback_others_fluids-and-lubricants"], price: 950 },
@@ -40,22 +41,41 @@ const DEMO: Demo[] = [
 ]
 
 const SIZE_OPTION = "opt_size"
+const COLOR_OPTION = "opt_color"
 
 function toProduct(d: Demo, locale: Locale): ShopProduct {
   const money = { amount: d.price, original: d.was ?? d.price, currency: "bdt" }
-  const variants = d.sizes?.length
-    ? d.sizes.map((s) => ({ id: `${d.handle}__${s}`, title: s, options: { [SIZE_OPTION]: s }, price: money, inStock: !d.outOfStock }))
-    : [{ id: `${d.handle}__default`, title: "Default", options: {}, price: money, inStock: !d.outOfStock }]
+  // Option titles stay in English (they are the filter keys in the URL); labels follow the language.
+  const options = [
+    ...(d.sizes?.length ? [{ id: SIZE_OPTION, title: "Size", label: locale === "bn" ? "সাইজ" : "Size", values: d.sizes }] : []),
+    ...(d.colors?.length ? [{ id: COLOR_OPTION, title: "Color", label: locale === "bn" ? "রং" : "Color", values: d.colors }] : []),
+  ]
+  // One variant per combination of option values.
+  const combos = options.reduce<Record<string, string>[]>(
+    (acc, o) => acc.flatMap((prev) => o.values.map((v) => ({ ...prev, [o.id]: v }))),
+    [{}],
+  )
+  const variants = combos.map((opts) => {
+    const values = options.map((o) => opts[o.id])
+    return {
+      id: values.length ? `${d.handle}__${values.join("__")}` : `${d.handle}__default`,
+      title: values.length ? values.join(" / ") : "Default",
+      options: opts,
+      price: money,
+      inStock: !d.outOfStock,
+    }
+  })
   return {
     id: d.handle,
     title: locale === "bn" ? d.titleBn : d.title,
     handle: d.handle,
     description: locale === "bn" ? d.descriptionBn : d.description,
     images: [],
-    options: d.sizes?.length ? [{ id: SIZE_OPTION, title: locale === "bn" ? "সাইজ" : "Size", values: d.sizes }] : [],
+    options,
     variants,
     price: money,
     inStock: !d.outOfStock,
+    categoryIds: d.categories,
   }
 }
 

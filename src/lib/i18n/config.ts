@@ -9,8 +9,8 @@ export type Locale = (typeof LOCALES)[number]
 export const DEFAULT_LOCALE: Locale = "en"
 
 export const LOCALE_LABEL: Record<Locale, string> = { en: "English", bn: "বাংলা" }
-/** Used for Intl number/price formatting. */
-export const INTL_LOCALE: Record<Locale, string> = { en: "en-BD", bn: "bn-BD" }
+/** Used for Intl number/price formatting. en-IN groups like Bangla (45,12,000), as is usual in Bangladesh. */
+export const INTL_LOCALE: Record<Locale, string> = { en: "en-IN", bn: "bn-BD" }
 
 export const isLocale = (v: string | undefined): v is Locale => !!v && (LOCALES as readonly string[]).includes(v)
 

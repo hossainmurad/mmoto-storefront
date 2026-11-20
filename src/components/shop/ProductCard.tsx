@@ -43,9 +43,9 @@ export function ProductCard({ p, locale, t, priority = false, refreshOnToggle = 
   )
 }
 
-export function ProductGrid({ products, ...rest }: { products: ShopProduct[] } & Omit<CardProps, "p" | "priority">) {
+export function ProductGrid({ products, className = "", ...rest }: { products: ShopProduct[]; className?: string } & Omit<CardProps, "p" | "priority">) {
   return (
-    <ul className={s.grid}>
+    <ul className={`${s.grid} ${className}`}>
       {products.map((p, i) => (
         <li key={p.id}><ProductCard p={p} {...rest} priority={i < 4} /></li>
       ))}

@@ -52,7 +52,7 @@ export function BuyBox({ product }: { product: ShopProduct }) {
       {product.variants.length > 1 &&
         product.options.map((o) => (
           <fieldset key={o.id} className={s.optGroup}>
-            <legend>{fmt(t.product.chooseOption, { name: o.title })}</legend>
+            <legend>{fmt(t.product.chooseOption, { name: o.label ?? o.title })}</legend>
             <div className={s.optValues}>
               {o.values.map((v) => (
                 <button

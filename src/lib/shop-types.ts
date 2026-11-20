@@ -18,11 +18,17 @@ export type ShopProduct = {
   thumbnail?: string
   description?: string
   images: string[]
-  options: { id: string; title: string; values: string[] }[]
+  /**
+   * title is the option's key (as in Medusa, e.g. "Size"); filters use it in the URL.
+   * label is an optional display name in the current language.
+   */
+  options: { id: string; title: string; label?: string; values: string[] }[]
   variants: ShopVariant[]
   /** Lowest variant price. */
   price?: Money
   inStock: boolean
+  /** Category ids the product is in. Only filled by listCategoryProductsForFilters. */
+  categoryIds?: string[]
 }
 
 export const isOnSale = (m?: Money) => !!m && m.original > m.amount

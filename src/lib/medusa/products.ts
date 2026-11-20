@@ -25,11 +25,14 @@ type MedusaProduct = {
   images?: { url: string }[] | null
   options?: { id: string; title: string; values?: { value: string }[] | null }[] | null
   variants?: MedusaVariant[] | null
+  categories?: { id: string }[] | null
 }
 
 const LIST_FIELDS =
   "id,title,handle,thumbnail,metadata,variants.id,variants.title,*variants.calculated_price,+variants.inventory_quantity,variants.manage_inventory,variants.allow_backorder"
 const DETAIL_FIELDS = `${LIST_FIELDS},description,*images,*options,*options.values,*variants.options`
+/** List fields plus what the category filters need: options (attributes) and categories. */
+const FILTER_FIELDS = `${LIST_FIELDS},*options,*options.values,*variants.options,categories.id`
 
 /** Product data is cached for 5 minutes; revalidate the "products" tag from Medusa to refresh sooner. */
 const CACHE = { revalidate: 300, tags: ["products"] }
@@ -65,6 +68,7 @@ function normalize(p: MedusaProduct, locale: Locale): ShopProduct {
     variants,
     price: priced[0]?.price,
     inStock: variants.length === 0 || variants.some((v) => v.inStock),
+    categoryIds: p.categories?.map((c) => c.id),
   }
 }
 
@@ -118,4 +122,39 @@ export async function listCollectionProducts(locale: Locale, handle: string, lim
   })
   if (!collections[0]) return { products: [] as ShopProduct[], count: 0 }
   return listProducts(locale, { collectionId: [collections[0].id], limit })
+}
+
+/** Medusa allows at most 100 per request; stop at 1000 products so one category can't load forever. */
+const FILTER_BATCH = 100
+const FILTER_CAP = 1000
+
+/**
+ * Every product in these categories (newest first), with options and category
+ * ids, for the category filters. The Store API can't filter by price, sale or
+ * stock, so the page loads the whole category (cached like other product
+ * requests) and filters, sorts and paginates it on the server.
+ * Uses the demo catalogue when Medusa is not set up.
+ */
+export async function listCategoryProductsForFilters(locale: Locale, categoryIds: string[]): Promise<ShopProduct[]> {
+  if (!categoryIds.length) return []
+  if (!medusaConfigured) return demoList(locale, { categoryId: categoryIds, limit: FILTER_CAP }).products
+
+  const region = await getRegion()
+  const all: ShopProduct[] = []
+  for (let offset = 0; offset < FILTER_CAP; offset += FILTER_BATCH) {
+    const { products, count } = await medusa<{ products: MedusaProduct[]; count: number }>("/store/products", {
+      query: {
+        fields: FILTER_FIELDS,
+        region_id: region?.id,
+        category_id: categoryIds,
+        limit: Math.min(FILTER_BATCH, FILTER_CAP - offset),
+        offset,
+        order: "-created_at",
+      },
+      ...CACHE,
+    })
+    all.push(...products.map((p) => normalize(p, locale)))
+    if (!products.length || offset + products.length >= count) break
+  }
+  return all
 }

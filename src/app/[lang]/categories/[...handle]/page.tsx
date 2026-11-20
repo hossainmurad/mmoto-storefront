@@ -1,17 +1,20 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
+import { FilteredProducts } from "@/components/shop/filters/FilteredProducts"
 import { DemoNote, Empty } from "@/components/shop/Notice"
-import { PAGE_SIZE, Pager, pageFrom } from "@/components/shop/Pager"
-import { ProductGrid } from "@/components/shop/ProductCard"
+import { pageFrom } from "@/components/shop/Pager"
 import s from "@/components/shop/shop.module.css"
-import { fmt, num } from "@/lib/i18n/format"
+import { parseFilters, type Subcategory } from "@/lib/filters"
 import { getI18n } from "@/lib/i18n/server"
 import { findByPath, getCategoryTree } from "@/lib/medusa/categories"
 import { medusaConfigured } from "@/lib/medusa/client"
-import { listProducts } from "@/lib/medusa/products"
+import { listCategoryProductsForFilters } from "@/lib/medusa/products"
 import { catName, categoryHref, type NavCategory } from "@/lib/nav-types"
 
-type Props = { params: Promise<{ handle: string[] }>; searchParams: Promise<{ page?: string }> }
+type Props = {
+  params: Promise<{ handle: string[] }>
+  searchParams: Promise<Record<string, string | string[] | undefined>>
+}
 
 export async function generateMetadata({ params }: Props) {
   const { handle } = await params
@@ -31,12 +34,14 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   const trail = findByPath(await getCategoryTree(), handle)
   if (!trail) notFound()
   const cat = trail[trail.length - 1]
-  const page = pageFrom(sp.page)
 
-  const ids = withDescendants(cat)
-  const { products, count } = ids.length
-    ? await listProducts(locale, { categoryId: ids, limit: PAGE_SIZE, offset: (page - 1) * PAGE_SIZE })
-    : { products: [], count: 0 }
+  // Whole category (up to 1000 products); filtering, sorting and paging happen in FilteredProducts.
+  const products = await listCategoryProductsForFilters(locale, withDescendants(cat))
+  const subcategories: Subcategory[] = cat.children.map((c) => ({
+    handle: c.handle,
+    label: catName(c, locale),
+    ids: withDescendants(c),
+  }))
 
   return (
     <div className="page">
@@ -67,17 +72,15 @@ export default async function CategoryPage({ params, searchParams }: Props) {
         <h2 id="products" className={s.h2}>{t.category.products}</h2>
         {!medusaConfigured && <DemoNote t={t} />}
         {products.length ? (
-          <>
-            <p className={s.meta}>{fmt(t.category.count, { n: num(locale, count) })}</p>
-            <ProductGrid products={products} locale={locale} t={t} />
-            <Pager
-              page={page}
-              total={Math.ceil(count / PAGE_SIZE)}
-              hrefFor={(n) => `${categoryHref(cat, locale)}${n > 1 ? `?page=${n}` : ""}`}
-              locale={locale}
-              t={t}
-            />
-          </>
+          <FilteredProducts
+            products={products}
+            subcategories={subcategories}
+            filters={parseFilters(sp)}
+            page={pageFrom(sp.page)}
+            basePath={categoryHref(cat, locale)}
+            locale={locale}
+            t={t}
+          />
         ) : (
           <Empty>{t.category.empty}</Empty>
         )}
