@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-CimInstance Win32_Process -Filter \"Name='node.exe'\" | Where-Object { $_.CommandLine -match 'mmoto-storefront' -and $_.CommandLine -match 'dev' } | Select-Object ProcessId, CreationDate)",
+      "PowerShell(npx next dev -p 3123)",
+      "PowerShell(npm run build 2>&1 | Select-String -Pattern 'rror|✓ Compiled|Finished TypeScript|Generating static pages using 7 workers \\\\\\(\\\\d+/\\\\d+\\\\\\) in' | Select-Object -Last 6; \"build exit=$LASTEXITCODE\"; git status --short)",
+      "PowerShell(git commit -q -F \"C:\\\\Users\\\\HP\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\0595fb4a06aba95a\\\\fe5a113d-8336-459d-9860-38844ca19479\\\\scratchpad\\\\commit-msg.txt\"; \"commit exit=$LASTEXITCODE\"; git log --oneline -1; git push origin main 2>&1 | Select-String '->|rejected|error'; \"push exit=$LASTEXITCODE\"; git status --short)"
+    ]
+  }
+}
